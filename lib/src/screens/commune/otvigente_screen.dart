@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plan_app/src/constants.dart';
+import 'package:plan_app/src/controllers/SettingsController.dart';
 import 'package:plan_app/src/widgets/drawer_widget.dart';
 
 class OTVigenteScreen extends StatelessWidget {
@@ -9,6 +10,7 @@ class OTVigenteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const style = TextStyle(color: Colors.white);
+    final SettingsController _settingsController = Get.find();
 
     return SafeArea(
       child: Scaffold(
@@ -23,40 +25,7 @@ class OTVigenteScreen extends StatelessWidget {
               Text('OT Vigente', style: titleStyle()),
               const SizedBox(height: 20),
 
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Profesional jefe de terreno",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Material(
-                borderRadius: BorderRadius.circular(6),
-                elevation: 2,
-                child: DropdownButtonFormField(
-                  decoration: formFieldStyle(),
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  items: const [
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Text("Pedro Rodriguez 1"),
-                    ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Text("Pedro Rodriguez 2"),
-                    ),
-                    DropdownMenuItem(
-                      value: 3,
-                      child: Text("Pedro Rodriguez 3"),
-                    ),
-                  ],
-                )
-              ),
+              if(_settingsController.selectedRole.value == _settingsController.gerente) _buildGerenteField(),
 
 
               const SizedBox(height: 30),
@@ -154,6 +123,46 @@ class OTVigenteScreen extends StatelessWidget {
           ),
         ),
       )
+    );
+  }
+
+  Widget _buildGerenteField(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Profesional jefe de terreno",
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+
+        const SizedBox(height: 20),
+        Material(
+          borderRadius: BorderRadius.circular(6),
+          elevation: 2,
+          child: DropdownButtonFormField(
+            decoration: formFieldStyle(),
+            onChanged: (value) {
+              print(value);
+            },
+            items: const [
+              DropdownMenuItem(
+                value: 1,
+                child: Text("Pedro Rodriguez 1"),
+              ),
+              DropdownMenuItem(
+                value: 2,
+                child: Text("Pedro Rodriguez 2"),
+              ),
+              DropdownMenuItem(
+                value: 3,
+                child: Text("Pedro Rodriguez 3"),
+              ),
+            ],
+          )
+        )
+      ],
     );
   }
 }

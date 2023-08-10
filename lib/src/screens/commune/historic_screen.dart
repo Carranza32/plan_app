@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:plan_app/src/constants.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/rendering.dart';
+import 'package:plan_app/src/controllers/SettingsController.dart';
 import 'package:plan_app/src/widgets/drawer_widget.dart';
 
 
@@ -12,6 +13,8 @@ class HistoricScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SettingsController _settingsController = Get.find();
+    
     return SafeArea(
       child: Scaffold(
         endDrawer: const DrawerWidget(),
@@ -27,80 +30,9 @@ class HistoricScreen extends StatelessWidget {
 
               const Text("En esta sección podrás descargar los informes de las ordenes de trabajo cerradas."),
 
-              const SizedBox(height: 30),
+              if(_settingsController.selectedRole.value == _settingsController.gerente) _buildJefeTerreno(),
 
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Profesional jefe de terreno",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Material(
-                borderRadius: BorderRadius.circular(6),
-                elevation: 2,
-                child: DropdownButtonFormField(
-                  decoration: formFieldStyle(),
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  items: const [
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Text("Pedro Rodriguez 1"),
-                    ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Text("Pedro Rodriguez 2"),
-                    ),
-                    DropdownMenuItem(
-                      value: 3,
-                      child: Text("Pedro Rodriguez 3"),
-                    ),
-                  ],
-                )
-              ),
-
-
-              const SizedBox(height: 30),
-
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Supervisor",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Material(
-                borderRadius: BorderRadius.circular(6),
-                elevation: 2,
-                child: DropdownButtonFormField(
-                  decoration: formFieldStyle(),
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  items: const [
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Text("Pedro Rodriguez 1"),
-                    ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Text("Pedro Rodriguez 2"),
-                    ),
-                    DropdownMenuItem(
-                      value: 3,
-                      child: Text("Pedro Rodriguez 3"),
-                    ),
-                  ],
-                )
-              ),
+              if(_settingsController.selectedRole.value == _settingsController.pjte || _settingsController.selectedRole.value == _settingsController.gerente) _buildSupervisor(),
 
               const SizedBox(height: 30),
 
@@ -131,13 +63,15 @@ class HistoricScreen extends StatelessWidget {
                   columns: const [
                     DataColumn2(
                       label: Text('OT'),
-                      size: ColumnSize.L,
+                      size: ColumnSize.S,
                     ),
-                    DataColumn(
+                    DataColumn2(
                       label: Text('Fecha de término'),
+                      size: ColumnSize.S,
                     ),
-                    DataColumn(
+                    DataColumn2(
                       label: Text(''),
+                      size: ColumnSize.S,
                     ),
                   ],
 
@@ -167,6 +101,90 @@ class HistoricScreen extends StatelessWidget {
           ),
         ),
       )
+    );
+  }
+
+  Widget _buildJefeTerreno(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 30),
+
+        const Text(
+          "Profesional jefe de terreno",
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+        
+        const SizedBox(height: 20),
+        Material(
+          borderRadius: BorderRadius.circular(6),
+          elevation: 2,
+          child: DropdownButtonFormField(
+            decoration: formFieldStyle(),
+            onChanged: (value) {
+              print(value);
+            },
+            items: const [
+              DropdownMenuItem(
+                value: 1,
+                child: Text("Pedro Rodriguez 1"),
+              ),
+              DropdownMenuItem(
+                value: 2,
+                child: Text("Pedro Rodriguez 2"),
+              ),
+              DropdownMenuItem(
+                value: 3,
+                child: Text("Pedro Rodriguez 3"),
+              ),
+            ],
+          )
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSupervisor(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 30),
+
+        const Text(
+          "Supervisor",
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+
+        const SizedBox(height: 20),
+        Material(
+          borderRadius: BorderRadius.circular(6),
+          elevation: 2,
+          child: DropdownButtonFormField(
+            decoration: formFieldStyle(),
+            onChanged: (value) {
+              print(value);
+            },
+            items: const [
+              DropdownMenuItem(
+                value: 1,
+                child: Text("Pedro Rodriguez 1"),
+              ),
+              DropdownMenuItem(
+                value: 2,
+                child: Text("Pedro Rodriguez 2"),
+              ),
+              DropdownMenuItem(
+                value: 3,
+                child: Text("Pedro Rodriguez 3"),
+              ),
+            ],
+          )
+        ),
+      ],
     );
   }
 }

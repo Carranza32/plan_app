@@ -1,4 +1,5 @@
 export './home_screen.dart';
+export './settings/settings_screen.dart';
 export './auth/login_screen.dart';
 export './auth/recuperate_screen.dart';
 export './commune/dashboard_screen.dart';

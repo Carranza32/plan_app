@@ -15,12 +15,16 @@ class LoginScreen extends StatelessWidget {
         body: Stack(
           children: [
             _buildBackground(),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.center,
-                child: _buildLoginForm(context),
+            SingleChildScrollView(
+              child: Positioned.fill(
+                left: size.width * 0.5,
+                right: size.width * 0.5,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: _buildLoginForm(context),
+                ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -31,7 +35,7 @@ class LoginScreen extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/background.jpg'), // Reemplaza con la ruta de tu imagen
+          image: AssetImage('assets/Fondo login.webp'), // Reemplaza con la ruta de tu imagen
           fit: BoxFit.cover,
           opacity: 0.5,
         ),
@@ -45,6 +49,9 @@ class LoginScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
+            const SizedBox(height: 30),
+            Image.asset('assets/logo.png', width: 150),
+            const SizedBox(height: 30),
             Text("Iniciar sesión", style: titleStyle()),
             const SizedBox(height: 30),
             Form(

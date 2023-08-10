@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image(
-                image: const AssetImage('assets/home.png'),
+                image: const AssetImage('assets/home2.jpg'),
                 height: size.height * 0.3,
               ),
 

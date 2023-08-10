@@ -12,6 +12,10 @@ class Routes {
 			page: () => const HomeScreen(),
 		),
 		GetPage(
+			name: '/settings',
+			page: () => SettingsScreen(),
+		),
+		GetPage(
 			name: '/commune/dashboard',
 			page: () => const DashboardScreen(),
 		),
