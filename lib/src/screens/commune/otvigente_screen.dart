@@ -78,19 +78,23 @@ class OTVigenteScreen extends StatelessWidget {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(10),
-                        child: Text('OT', textAlign: TextAlign.center, style: style),
+                        child: const Text('OT', textAlign: TextAlign.center, style: style),
                       ),
                       Container(
                         padding: const EdgeInsets.all(10),
-                        child: Text('Inicio', textAlign: TextAlign.center, style: style),
+                        child: const Text('Inicio', textAlign: TextAlign.center, style: style),
                       ),
                       Container(
                         padding: const EdgeInsets.all(10),
-                        child: Text('Nuevo aporte al avance en OT', textAlign: TextAlign.center, style: style),
+                        child: const Text('Aporte al avance en OT', textAlign: TextAlign.center, style: style),
                       ),
                       Container(
                         padding: const EdgeInsets.all(10),
-                        child: Text('', textAlign: TextAlign.center, style: style),
+                        child: const Text('Nuevo aporte al avance en OT', textAlign: TextAlign.center, style: style),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: const Text('', textAlign: TextAlign.center, style: style),
                       ),
                     ]
                   ),
@@ -103,6 +107,10 @@ class OTVigenteScreen extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: const Text('17/07/2023', textAlign: TextAlign.center),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: const Text('1,3%', textAlign: TextAlign.center),
                       ),
                       Container(
                         padding: const EdgeInsets.all(10),

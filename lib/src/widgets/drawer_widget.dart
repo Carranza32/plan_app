@@ -52,7 +52,7 @@ class DrawerWidget extends StatelessWidget {
               },
             ),
 
-          if(_settingsController.selectedRole.value == _settingsController.gerente || _settingsController.selectedRole.value == _settingsController.pjte)
+          if(_settingsController.selectedRole.value == _settingsController.gerente)
             ListTile(
               leading: const Icon(Icons.change_circle_outlined),
               title: const Text('Cambiar obra'),

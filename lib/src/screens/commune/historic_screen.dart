@@ -53,7 +53,7 @@ class HistoricScreen extends StatelessWidget {
                 child: DataTable2(
                   columnSpacing: 12,
                   horizontalMargin: 12,
-                  minWidth: 600,
+                  minWidth: 400,
                   headingRowColor: MaterialStateColor.resolveWith((states) => primaryColor()),
                   headingTextStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -63,15 +63,12 @@ class HistoricScreen extends StatelessWidget {
                   columns: const [
                     DataColumn2(
                       label: Text('OT'),
-                      size: ColumnSize.S,
                     ),
                     DataColumn2(
                       label: Text('Fecha de término'),
-                      size: ColumnSize.S,
                     ),
                     DataColumn2(
                       label: Text(''),
-                      size: ColumnSize.S,
                     ),
                   ],
 
@@ -82,17 +79,22 @@ class HistoricScreen extends StatelessWidget {
 
                       const DataCell(Text('23/05/2023')),
 
-                      DataCell(IconButton(
-                        icon: Icon(Icons.sim_card_download_outlined, color: primaryColor()),
-                        onPressed: () {
-                          Get.showSnackbar(
-                            const GetSnackBar(
-                              message: 'Archivo descargado',
-                              duration: Duration(seconds: 3),
-                            ),
-                          );
-                        },
-                      )),
+                      DataCell(
+                        Align(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            icon: Icon(Icons.sim_card_download_outlined, color: primaryColor()),
+                            onPressed: () {
+                              Get.showSnackbar(
+                                const GetSnackBar(
+                                  message: 'Archivo descargado',
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      ),
                     ])
                   ),
                 ),

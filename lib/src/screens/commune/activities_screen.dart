@@ -15,7 +15,6 @@ class ActivitiesScreen extends StatelessWidget {
     final rowItemsDoors = [
       ['Ruta Crítica', 'SI'],
       ['Cantidad diaria requerida en OT', '28 uni'],
-      ['Unidad', 'UNI'],
       ['Duración actividad en OT', '14 días'],
       ['Cantidad requerida en periodo OT', '392 uni'],
       ['Aporte al avance en OT', '0,9%'],
@@ -24,8 +23,8 @@ class ActivitiesScreen extends StatelessWidget {
     ];
 
     final rowItemsReported = [
-      ['Lu', '01-06-2023', '100'],
       ['Ma', '02-06-2023', '100'],
+      ['Lu', '01-06-2023', '100'],
     ];
 
     final header = ['Día', 'Fecha', 'Cantidad'];
@@ -50,13 +49,13 @@ class ActivitiesScreen extends StatelessWidget {
 
               GenerateTableWidget(rows: rowItemsDoors),
 
+              if (_settingsController.selectedRole.value == _settingsController.supervisor || _settingsController.selectedRole.value == _settingsController.pjte) _reportActivitySup(),
+            
               const SizedBox(height: 30),
               Text('Avance reportado', style: titleStyle()),
               
               const SizedBox(height: 10),
               GenerateTableWidget(rows: rowItemsReported, header: header),
-
-              if (_settingsController.selectedRole.value == _settingsController.supervisor || _settingsController.selectedRole.value == _settingsController.pjte) _reportActivitySup(),
             ],
           ),
         ),

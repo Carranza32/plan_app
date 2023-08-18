@@ -8,6 +8,10 @@ class Routes {
 			page: () => const LoginScreen(),
 		),
 		GetPage(
+			name: '/recuperate',
+			page: () => const RecuperateScreen(),
+		),
+		GetPage(
 			name: '/home',
 			page: () => const HomeScreen(),
 		),

@@ -43,7 +43,7 @@ class OTVigenteDetailScreen extends StatelessWidget {
 
                   Chip(
                     avatar: Icon(Icons.calendar_month_outlined, color: Colors.white, size: 18),
-                    label: Text('17-07-2023', style: TextStyle(color: Colors.white)), 
+                    label: Text('Inicio OT: 17-07-2023', style: TextStyle(color: Colors.white)), 
                     backgroundColor: Color(0xffdfc124),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(6)),
