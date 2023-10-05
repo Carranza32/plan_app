@@ -9,10 +9,11 @@ import 'package:device_preview/device_preview.dart';
 import 'src/controllers/SettingsController.dart';
 
 void main() => runApp(
-  DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => const MyApp(),
-  ),
+  const MyApp()
+  // DevicePreview(
+  //   enabled: !kReleaseMode,
+  //   builder: (context) => const MyApp(),
+  // ),
 );
 
 class MyApp extends StatelessWidget {
@@ -21,8 +22,8 @@ class MyApp extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		return GetMaterialApp(
-      useInheritedMediaQuery: true,
-      builder: DevicePreview.appBuilder,
+      // useInheritedMediaQuery: true,
+      // builder: DevicePreview.appBuilder,
 			title: 'Plan App',
 			getPages: Routes.route,
 			initialRoute: '/login',
