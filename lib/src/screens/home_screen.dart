@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plan_app/src/constants.dart';
+import 'package:plan_app/src/controllers/HomeController.dart';
 import 'package:plan_app/src/widgets/drawer_widget.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final HomeController controller = Get.put(HomeController());
+  
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,29 +43,27 @@ class HomeScreen extends StatelessWidget {
               Material(
                 borderRadius: BorderRadius.circular(6),
                 elevation: 2,
-                child: DropdownButtonFormField(
+                child: Obx(() => DropdownButtonFormField<String>(
+                  value: controller.selectedValue.value,
                   decoration: formFieldStyle(),
-                  onChanged: (value) {
-                    print(value);
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      controller.selectedValue.value = newValue;
+                    }
                   },
-                  items: const [
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Text("Puente Algarrobo 1"),
-                    ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Text("Puente Algarrobo 2"),
-                    ),
-                    DropdownMenuItem(
-                      value: 3,
-                      child: Text("Puente Algarrobo 3"),
-                    ),
-                  ],
-                )
+                  items: controller.projects.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        child: Text(value),
+                      ),
+                    );
+                  }).toList(),
+                )),
               ),
             
-              Spacer(),
+              const Spacer(),
 
               ElevatedButton(
                 style: primaryButtonStyle().copyWith(
@@ -75,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
 
-              Spacer(),
+              const Spacer(),
             ],
           ),
         ),

@@ -1,20 +1,20 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plan_app/src/utils/router.dart';
 import 'package:plan_app/src/utils/translations.dart';
 import 'package:plan_app/src/constants.dart';
-import 'package:device_preview/device_preview.dart';
 
 import 'src/controllers/SettingsController.dart';
 
-void main() => runApp(
-  const MyApp()
-  // DevicePreview(
-  //   enabled: !kReleaseMode,
-  //   builder: (context) => const MyApp(),
-  // ),
-);
+void main() {
+  runApp(
+    const MyApp()
+      // DevicePreview(
+      //   enabled: !kReleaseMode,
+      //   builder: (context) => const MyApp(),
+      // ),
+  );
+}
 
 class MyApp extends StatelessWidget {
 	const MyApp({super.key});

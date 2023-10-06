@@ -5,7 +5,7 @@ class Routes {
 	static final route = [
 		GetPage(
 			name: '/login',
-			page: () => const LoginScreen(),
+			page: () => LoginScreen(),
 		),
 		GetPage(
 			name: '/recuperate',
@@ -13,7 +13,7 @@ class Routes {
 		),
 		GetPage(
 			name: '/home',
-			page: () => const HomeScreen(),
+			page: () => HomeScreen(),
 		),
 		GetPage(
 			name: '/settings',

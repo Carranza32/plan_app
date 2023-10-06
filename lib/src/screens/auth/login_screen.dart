@@ -1,10 +1,13 @@
 import 'package:plan_app/src/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plan_app/src/controllers/LoginController.dart';
 
 
 class LoginScreen extends StatelessWidget {
-	const LoginScreen({super.key});
+  final LoginController controller = Get.put(LoginController());
+	LoginScreen({super.key});
+
 
 	@override
 	Widget build(BuildContext context) {
@@ -65,6 +68,7 @@ class LoginScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                     elevation: 2,
                     child: TextFormField(
+                      controller: controller.uidController,
                       decoration: formFieldStyle().copyWith(
                         hintText: "xxxxxxx-x"
                       ),
@@ -78,6 +82,8 @@ class LoginScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                     elevation: 2,
                     child: TextFormField(
+                      obscureText: true,
+                      controller: controller.passwordController,
                       decoration: formFieldStyle(),
                     ),
                   ),
@@ -111,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     child: const Text("Iniciar sesión"),
                     onPressed: () {
-                      Get.offAllNamed('/home');
+                      controller.login();
                     },
                   ),
                 ],
