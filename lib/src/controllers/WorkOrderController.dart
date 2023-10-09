@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:plan_app/src/models/current_workorder_model.dart';
+import 'package:plan_app/src/models/user_model.dart';
 import 'package:plan_app/src/services/api_service.dart';
 
 class WorkController extends GetxController {
   final ApiService _apiService = ApiService();
 
-  var selectedSupervisor = 'Valor predeterminado'.obs;
-  var supervisors = <String>[].obs;
+  Rx<UserModel> selectedSupervisor = UserModel().obs;
+  RxList<UserModel> supervisors = <UserModel>[].obs;
 
-  var selectedprofessionals = 'Valor predeterminado'.obs;
-  var professionals = <String>[].obs;
+  Rx<UserModel> selectedprofessionals = UserModel().obs;
+  RxList<UserModel> professionals = <UserModel>[].obs;
 
-  var workOrders = <String>[].obs;
+  Rx<CurrentWorkOrderModel> workOrder = CurrentWorkOrderModel().obs;
 
   @override
   void onReady() {
-    // TODO: implement onReady
     getProfessionals();
     getSupervisors();
     getWorkOrders();
@@ -25,20 +26,12 @@ class WorkController extends GetxController {
   }
 
   void getSupervisors() async {
-    final response = await _apiService.getWithToken('/users/supervisors');
-
-    print(response);
+    final response = await _apiService.getWithToken('/users/supervisors?current_project_id=3');
 
     if (response.statusCode == 200) {
-      if (response.data['data'] != null) {
-        final List<String> data = [];
+      supervisors.value = response.data['data'].map<UserModel>((item) => UserModel.fromJson(item)).toList();
 
-        for (var project in response.data['data']) {
-          data.add(project['data']);
-        }
-
-        professionals.assignAll(data);
-      }
+      selectedSupervisor.value = supervisors[0];
     } else {
       Get.snackbar(
         'Error',
@@ -50,20 +43,12 @@ class WorkController extends GetxController {
   }
 
   void getProfessionals() async {
-    final response = await _apiService.getWithToken('/users/field-manager');
-
-    print(response);
+    final response = await _apiService.getWithToken('/users/field-manager?current_project_id=3');
 
     if (response.statusCode == 200) {
-      if (response.data['data'] != null) {
-        final List<String> data = [];
+      professionals.value = response.data['data'].map<UserModel>((item) => UserModel.fromJson(item)).toList();
 
-        for (var project in response.data['data']) {
-          data.add(project['data']);
-        }
-
-        professionals.assignAll(data);
-      }
+      selectedprofessionals.value = professionals[0];
     } else {
       Get.snackbar(
         'Error',
@@ -75,20 +60,14 @@ class WorkController extends GetxController {
   }
 
   void getWorkOrders() async {
-    final response = await _apiService.getWithToken('/work-order');
+    final response = await _apiService.getWithToken('/work-order/current?current_project_id=3');
 
-    print(response);
+    print(response.data);
 
     if (response.statusCode == 200) {
-      if (response.data['data'] != null) {
-        final List<String> data = [];
+      var data = response.data['data'];
 
-        for (var project in response.data['data']) {
-          data.add(project['data']);
-        }
-
-        professionals.assignAll(data);
-      }
+      workOrder.value = CurrentWorkOrderModel.fromJson(data);
     } else {
       Get.snackbar(
         'Error',

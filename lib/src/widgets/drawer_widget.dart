@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:plan_app/src/controllers/SettingsController.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -69,6 +70,15 @@ class DrawerWidget extends StatelessWidget {
                 Get.offNamed('/settings');
               },
             ),
+
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Cerrar sesión'),
+            onTap: () {
+              GetStorage().remove('token');
+              Get.offAllNamed('/login');
+            },
+          ),
         ],
       ),
     );

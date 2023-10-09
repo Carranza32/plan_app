@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:plan_app/src/constants.dart';
 
 class GenerateTableWidget extends StatelessWidget {
-  List<List<String>> rows;
+  List<List<String?>> rows;
   // ignore: prefer_typing_uninitialized_variables
   var header;
 

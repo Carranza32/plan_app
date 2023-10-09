@@ -45,6 +45,11 @@ dependencies:
   device_preview: ^1.1.0
   dio: ^5.3.3
   get_storage: ^2.1.1
+  intl: ^0.18.1
+  sqflite: ^2.3.0
+  internet_connection_checker_plus: ^2.0.0
+  path_provider: ^2.1.1
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:

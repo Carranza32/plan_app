@@ -5,6 +5,7 @@ import 'package:plan_app/src/services/api_service.dart';
 
 class LoginController extends GetxController {
   final ApiService _apiService = ApiService();
+  GetStorage storage = GetStorage();
 
   TextEditingController uidController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -15,9 +16,27 @@ class LoginController extends GetxController {
   @override
   void onReady() {
     // TODO: implement onReady
-    uidController.text = '21317387-1';
-    passwordController.text = '123123123';
+    uidController.text = '17598590-5';
+    passwordController.text = '1759';
+
+    checkAuth();
     super.onReady();
+  }
+
+  void checkAuth() {
+    try {
+      var token = storage.read('token');
+
+      if (token != null) {
+        print("Ya estas registrado");
+        print(token);
+        Get.offAllNamed("/home");
+      }else{
+        print("No estas registrado");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void login() async {
@@ -28,8 +47,8 @@ class LoginController extends GetxController {
 
     if (response.statusCode == 200) {
       //Guardar token
-      GetStorage().write('token', response.data['token']);
-      GetStorage().write('projects', response.data['projects']);
+      storage.write('token', response.data['token']);
+      storage.write('projects', response.data['projects']);
       
       Get.offAllNamed('/home');
     } else {

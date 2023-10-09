@@ -30,22 +30,15 @@ class DashboardScreen extends StatelessWidget {
               const SizedBox(height: 20),
               const AlertCardWidget(),
               const SizedBox(height: 25),
-              const TableWidget(),
 
               const SizedBox(height: 25),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    flex: 3,
-                    child: PercentCardWidget(label: "Avance programado", percent: 90.3, color: Colors.yellow, isVertical: isVertical),
-                  ),
+                  PercentCardWidget(label: "Avance programado", percent: 90.3, color: Colors.yellow, isVertical: isVertical),
                   const SizedBox(width: 20),
-                  Flexible(
-                    flex: 3,
-                    child: PercentCardWidget(label: "Avance probable", percent: 80.2, color: Colors.yellow, isVertical: isVertical),
-                  )
+                  PercentCardWidget(label: "Avance real", percent: 23.0, color: Colors.red, isVertical: isVertical)
                 ],
               ),
               const SizedBox(height: 25),
@@ -53,12 +46,7 @@ class DashboardScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    flex: 3,
-                    child: PercentCardWidget(label: "Avance real", percent: 23.0, color: Colors.red, isVertical: isVertical),
-                  ),
-                  const SizedBox(width: 20),
-                  Flexible(
-                    flex: 3,
+                    flex: 6,
                     child: PercentCardWidget(label: "IP", percent: 25.5, color: Colors.red, isVertical: isVertical),
                   )
                 ],

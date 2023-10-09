@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plan_app/src/constants.dart';
 import 'package:plan_app/src/controllers/SettingsController.dart';
+import 'package:plan_app/src/models/current_workorder_model.dart';
 import 'package:plan_app/src/widgets/drawer_widget.dart';
 import 'package:plan_app/src/widgets/generate_table_widget.dart';
 
@@ -11,10 +12,11 @@ class ActivitiesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SettingsController _settingsController = Get.find();
+    ActivityActivity data = Get.arguments as ActivityActivity;
     
     final rowItemsDoors = [
-      ['Ruta Crítica', 'SI'],
-      ['Cantidad diaria requerida en OT', '28 uni'],
+      ['Ruta Crítica', (data.isCriticalRoute == 1) ? 'Sí' : 'No'],
+      ['Cantidad diaria requerida en OT', data.quantity],
       ['Duración actividad en OT', '14 días'],
       ['Cantidad requerida en periodo OT', '392 uni'],
       ['Aporte al avance en OT', '0,9%'],
@@ -29,35 +31,33 @@ class ActivitiesScreen extends StatelessWidget {
 
     final header = ['Día', 'Fecha', 'Cantidad'];
 
-    return SafeArea(
-      child: Scaffold(
-        endDrawer: const DrawerWidget(),
-        appBar: AppBar( 
-          title: const Text('Puente Algarrobo'),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Actividad', style: titleStyle()),
-              const SizedBox(height: 30),
+    return Scaffold(
+      endDrawer: const DrawerWidget(),
+      appBar: AppBar( 
+        title: const Text('Puente Algarrobo'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Actividad', style: titleStyle()),
+            const SizedBox(height: 30),
 
-              const SizedBox(height: 30),
-              Text("Puertas", style: TextStyle(color: primaryColor())),
-              const SizedBox(height: 10),
+            const SizedBox(height: 30),
+            Text("Puertas", style: TextStyle(color: primaryColor())),
+            const SizedBox(height: 10),
 
-              GenerateTableWidget(rows: rowItemsDoors),
+            GenerateTableWidget(rows: rowItemsDoors),
 
-              if (_settingsController.selectedRole.value == _settingsController.supervisor || _settingsController.selectedRole.value == _settingsController.pjte) _reportActivitySup(),
+            if (_settingsController.selectedRole.value == _settingsController.supervisor || _settingsController.selectedRole.value == _settingsController.pjte) _reportActivitySup(),
+          
+            const SizedBox(height: 30),
+            Text('Avance reportado', style: titleStyle()),
             
-              const SizedBox(height: 30),
-              Text('Avance reportado', style: titleStyle()),
-              
-              const SizedBox(height: 10),
-              GenerateTableWidget(rows: rowItemsReported, header: header),
-            ],
-          ),
+            const SizedBox(height: 10),
+            GenerateTableWidget(rows: rowItemsReported, header: header),
+          ],
         ),
       ),
     );

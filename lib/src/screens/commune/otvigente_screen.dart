@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plan_app/src/constants.dart';
 import 'package:plan_app/src/controllers/SettingsController.dart';
+import 'package:plan_app/src/controllers/WorkOrderController.dart';
+import 'package:plan_app/src/models/user_model.dart';
 import 'package:plan_app/src/widgets/drawer_widget.dart';
 
 class OTVigenteScreen extends StatelessWidget {
@@ -10,136 +12,100 @@ class OTVigenteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const style = TextStyle(color: Colors.white);
-    final SettingsController _settingsController = Get.find();
+    final SettingsController settingsController = Get.find();
+    final WorkController workController = Get.put(WorkController());
 
-    return SafeArea(
-      child: Scaffold(
-        endDrawer: const DrawerWidget(),
-        appBar: AppBar( 
-          title: const Text('Puente Algarrobo'),
-        ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text('OT Vigente', style: titleStyle()),
-              const SizedBox(height: 20),
+    return Scaffold(
+      endDrawer: const DrawerWidget(),
+      appBar: AppBar( 
+        title: const Text('Puente Algarrobo'),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Text('OT Vigente', style: titleStyle()),
+            const SizedBox(height: 20),
 
-              if(_settingsController.selectedRole.value == _settingsController.gerente) _buildGerenteField(),
+            if(settingsController.selectedRole.value == settingsController.gerente) _buildJefeTerreno(workController),
 
+            const SizedBox(height: 10),
 
-              const SizedBox(height: 30),
+            _buildSupervisor(workController),
 
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Supervisor",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Material(
-                borderRadius: BorderRadius.circular(6),
-                elevation: 2,
-                child: DropdownButtonFormField(
-                  decoration: formFieldStyle(),
-                  onChanged: (value) {
-                    print(value);
-                  },
-                  items: const [
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Text("Pedro Rodriguez 1"),
-                    ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Text("Pedro Rodriguez 2"),
-                    ),
-                    DropdownMenuItem(
-                      value: 3,
-                      child: Text("Pedro Rodriguez 3"),
-                    ),
-                  ],
+            const SizedBox(height: 30),
+
+            Obx(() => 
+                (workController.workOrder.value.id != null) ? 
+                Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  children: _buildTableRows(workController, style),
                 )
-              ),
+               : const Center(child: CircularProgressIndicator())
+            ),
 
-              const SizedBox(height: 30),
-
-              
-              Table(
-                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                children: [
-                  TableRow(
-                    decoration: BoxDecoration(
-                      color: primaryColor(),
-                    ),
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('OT', textAlign: TextAlign.center, style: style),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('Inicio', textAlign: TextAlign.center, style: style),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('Aporte al avance en OT', textAlign: TextAlign.center, style: style),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('Nuevo aporte al avance en OT', textAlign: TextAlign.center, style: style),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('', textAlign: TextAlign.center, style: style),
-                      ),
-                    ]
-                  ),
-                  TableRow(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('OT 13', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('17/07/2023', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('1,3%', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const Text('1,9%', textAlign: TextAlign.center),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: IconButton(
-                          onPressed: () => Get.toNamed('/commune/otvigente/details'),
-                          icon: Icon(Icons.remove_red_eye_outlined, color: Colors.grey[700]),
-                        ),
-                      ),
-                    ]
-                  ),
-                ],
-              ),
-            ],
-          ),
+            
+          ],
         ),
-      )
+      ),
     );
   }
 
-  Widget _buildGerenteField(){
+  Widget _buildJefeTerreno(WorkController workController){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 30),
+
         const Text(
           "Profesional jefe de terreno",
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+        
+        const SizedBox(height: 20),
+        Material(
+          borderRadius: BorderRadius.circular(6),
+          elevation: 2,
+          child: Obx(() {
+            if (workController.professionals.isEmpty) {
+              // Muestra un CircularProgressIndicator mientras se carga la lista.
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return DropdownButtonFormField<UserModel>(
+                decoration: formFieldStyle(),
+                onChanged: (UserModel? value) {
+                  if (value != null) {
+                    workController.selectedprofessionals.value = value;
+                  }
+                },
+                value: workController.selectedprofessionals.value, // Asegúrate de que este valor esté actualizado según tu lógica.
+                items: workController.professionals.map<DropdownMenuItem<UserModel>>((UserModel user) {
+                  return DropdownMenuItem<UserModel>(
+                    value: user,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: Text(user.fullName ?? ''),
+                    ),
+                  );
+                }).toList(),
+              );
+            }
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSupervisor(WorkController workController){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 30),
+
+        const Text(
+          "Supervisor",
           style: TextStyle(
             fontSize: 18,
           ),
@@ -149,28 +115,100 @@ class OTVigenteScreen extends StatelessWidget {
         Material(
           borderRadius: BorderRadius.circular(6),
           elevation: 2,
-          child: DropdownButtonFormField(
-            decoration: formFieldStyle(),
-            onChanged: (value) {
-              print(value);
-            },
-            items: const [
-              DropdownMenuItem(
-                value: 1,
-                child: Text("Pedro Rodriguez 1"),
-              ),
-              DropdownMenuItem(
-                value: 2,
-                child: Text("Pedro Rodriguez 2"),
-              ),
-              DropdownMenuItem(
-                value: 3,
-                child: Text("Pedro Rodriguez 3"),
-              ),
-            ],
-          )
-        )
+          child: Obx(() {
+            if (workController.supervisors.isEmpty) {
+              // Muestra un CircularProgressIndicator mientras se carga la lista.
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return DropdownButtonFormField<UserModel>(
+                decoration: formFieldStyle(),
+                onChanged: (UserModel? value) {
+                  if (value != null) {
+                    workController.selectedSupervisor.value = value;
+                  }
+                },
+                value: workController.selectedSupervisor.value, // Asegúrate de que este valor esté actualizado según tu lógica.
+                items: workController.supervisors.map<DropdownMenuItem<UserModel>>((UserModel user) {
+                  return DropdownMenuItem<UserModel>(
+                    value: user,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      child: Text(user.fullName ?? ''),
+                    ),
+                  );
+                }).toList(),
+              );
+            }
+          }),
+        ),
       ],
     );
   }
+
+  List<TableRow> _buildTableRows(WorkController workController, TextStyle style){
+    List<TableRow> rows = [];
+
+    rows.add(
+      TableRow(
+        decoration: BoxDecoration(
+          color: primaryColor(),
+        ),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text('OT', textAlign: TextAlign.center, style: style),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text('Inicio', textAlign: TextAlign.center, style: style),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text('Aporte al avance en OT', textAlign: TextAlign.center, style: style),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text('Nuevo aporte al avance en OT', textAlign: TextAlign.center, style: style),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text('', textAlign: TextAlign.center, style: style),
+          ),
+        ]
+      ),
+    );
+
+    rows.add(
+      TableRow(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text(workController.workOrder.value.orderNumber.toString(), textAlign: TextAlign.center),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text(workController.workOrder.value.startDate.toString(), textAlign: TextAlign.center),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text('13%', textAlign: TextAlign.center),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Text('1.9%', textAlign: TextAlign.center),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: IconButton(
+              onPressed: () => Get.toNamed('/commune/otvigente/details', arguments: workController.workOrder.value),
+              icon: Icon(Icons.remove_red_eye_outlined, color: Colors.grey[700]),
+            ),
+          ),
+        ]
+      )
+    );
+
+    return rows;
+  }
 }
+
